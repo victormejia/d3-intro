@@ -41,7 +41,7 @@
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
         <section>
-          <h1>Intro to <span class="mediumblue">D3</span> with <span class="red">Angular</span></h1>
+          <h1>Intro to <span class="mediumblue">D3</span></h1>
           <p>
             Created by <a href="http://victormejia.github.io">Victor Mejia</a>
           </p>
@@ -49,10 +49,11 @@
 
         <section>
           <h2>about me</h2>
-          <p>Software Dev @ LoopNet (CoStar Group)</p>
-          <p>I ♥ JavaScript</p>
+          <p>Freelance UI Engineer and Instructor</p>
+          <p>I ♥ Coding and Teaching</p>
+          <p>I ♥ JavaScript (Angular, Ionic, D3, Firebase)</p>
           <hr />
-          <p>Tweeting <a href="https://twitter.com/victorczm">@victorczm</a></p>
+          <p>Tweeting <a href="https://twitter.com/_victormejia">@_victormejia</a></p>
           <p>Coding <a href="https://github.com/victormejia/">@victormejia</a></p>
           <p>Blogging @ <a href="http://victormejia.me">victormejia.me</a></p>
         </section>
@@ -99,36 +100,6 @@
         </section>
 
         <section>
-          <h1>why <span class="red">Angular</span> and <span class="mediumblue">D3</span>?</h1>
-        </section>
-
-        <section>
-          <h3>resuable components through <br /> <span class="red">directives</span></h3>
-          <pre><code class="language-markup">
-<barchart data="topRepos" fill="#2d323d"></barchart>
-          </code></pre>
-        </section>
-
-        <section>
-          <h1>let's be honest...</h1>
-        </section>
-        <section>
-          <h3>Angular's bi-directionally bound isolate scoped, transcluded, element restricted <span class="red">directives</span></h3>
-          <p>===</p>
-          <h3>it ain't that bad :)</h3>
-          <p>src: <a href="http://johnkpaul.github.io/presentations/emberconf/components-transclude-directives/#/17">@johnkpaul</a></p>
-        </section>
-
-        <section>
-          <h1>directives are awesome!</h1>
-        </section>
-
-        <section>
-          <img src="img/angular-enjoyment.png" alt="">
-          <p>source: <a href="http://alicialiu.net/leveling-up-angular-talk/#/1">http://alicialiu.net/leveling-up-angular-talk/#/1</a></p>
-        </section>
-
-        <section>
           <h2>the plan</h2>
           <ul>
             <li>svg intro</li>
@@ -137,8 +108,6 @@
             <li>axis</li>
             <li>transitions</li>
             <li>basic tooltips</li>
-            <li>angular integration</li>
-            <li>mobile friendly</li>
           </ul>
         </section>
 
@@ -412,7 +381,7 @@ rect.enter()
     .attr(...)
 
 // remove any data not needed
-rect.exit().remove();            
+rect.exit().remove();
 
           </code>
         </section>
@@ -510,6 +479,10 @@ selection
 
         <section><h2><a href="demos/01-barchart-scaled/" target="_blank">demo</a></h2></section>
 
+        <section>
+          <h2>Punchcard code along: <span class="mediumblue">scales</span></h2>
+        </section>
+
         <section data-background="#2d323d" data-state="new-section">
           <h1>Axis</h1>
         </section>
@@ -534,6 +507,14 @@ var xAxisGroup = svg.append("g")
         </section>
 
         <section><h2><a href="demos/02-barchart-axis" target="_blank">axis demo</a></section></h2>
+
+        <section>
+          <h2>Punchcard code along: <span class="mediumblue">axis</span></h2>
+        </section>
+
+        <section>
+          <h2>Punchcard code along: <span class="mediumblue">display data</span></h2>
+        </section>
 
         <section data-background="#2d323d" data-state="new-section">
           <h1>Transisitions</h1>
@@ -562,6 +543,10 @@ r.transition()
         <section><h2><a href="demos/03-barchart-animated" target="_blank">transition demo</a></h2></section>
 
         <section><h2><a href="demos/04-scatterplot-animated" target="_blank">transition demo 2</a></h2></section>
+
+        <section>
+          <h2>Punchcard code along: <span class="mediumblue">transitions</span></h2>
+        </section>
 
         <section data-background="#2d323d" data-state="new-section">
           <h1>Custom Tooltips</h1>
@@ -638,163 +623,9 @@ function handleMouseout(d, i) {
 
         <section><h2><a href="demos/06-linechart" target="_blank">tooltip demo 2 </a></h2></section>
 
-        <section data-background="http://d3j5vwomefv46c.cloudfront.net/photos/large/848745141.gif?1397682397" data-state="new-section">
-          <h2>Let's bring in our <span class="red">Angular</span> chops</h2>
-          <a href="http://goo.gl/nkFq9l">http://goo.gl/nkFq9l</a>
-        </section>
-
-        <section>
-          <h3>Basic Gravatar Directive</h3>
-          <p data-height="492" data-theme-id="0" data-slug-hash="jkiDd" data-default-tab="result" class='codepen'>See the Pen <a href='http://codepen.io/victormejia/pen/jkiDd/'>Gravatar Directive (AngularJS)</a> by Victor Mejia (<a href='http://codepen.io/victormejia'>@victormejia</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-<script async src="//codepen.io/assets/embed/ei.js"></script>
-        </section>
-<!--         <section>
-          <h2>Basic <a href="http://jsbin.com/zocisu/3/edit?html,js,output">Gravatar Directive</a></h2>
-        </section> -->
-
-        <section>
-          <h2>7 steps to build a D3 Angular directive</h2>
-        </section>
-
-        <section>
-          <h3>Step 1: Get Data from a service</h3>
-          <pre><code class="language-javascript">'use strict';
-
-angular.module('d3AngularDemosApp')
-  .controller('BarChartCtrl', ['$scope', 'DataSvc',
-    function ($scope, DataSvc) {
-
-      $scope.ui = {};
-
-      $scope.refresh = function () {
-        $scope.ui.topRepos = [];
-        DataSvc.getTopRepos()
-          .then(function (data) {
-            $scope.ui.topRepos = data;
-          });
-      };
-
-      $scope.refresh();
-    }
-  ]);
-
-          </code></pre>
-        </section>
-
-        <section>
-          <h3>Step 2: Directive usage</h3>
-          <pre><code class="language-markup">
-<barchart data="ui.topRepos" x="lang" y="value" class="chart"></barchart>
-          </code></pre>
-        </section>
-
-        <section>
-          <h2>Step 3: basic directive</h2>
-          <pre><code class="language-javascript">angular.module('app')
-  .directive('barchart', function () {
-    function linker(scope, element, attrs) {
-      // set up all the  components (svg, scales, axis, .etc)
-      var el = element[0];
-      ...
-      var svg = d3.select(el).append('svg')
-      ...
-      // exclude setup code that needs the data
-    }
-
-    return {
-      template: '<div></div>',
-      restrict: 'E',
-      replace: true,
-      link: linker,
-      scope: { // isolate scope
-        data: '=', // bi-directional data binding
-        x: '@', // the x property (string)
-        y: '@' // the y property (string)
-      }
-    };
-  });
-          </code></pre>
-        </section>
-
-        <section>
-          <h2>Step 4: "watch" for data</h2>
-          <pre><code class="language-javascript">
-scope.$watch('data', function (newData, oldData) {
-  var data = angular.copy(newData); // let's make a copy
-  scope.render(data);
-}, true); // watch for object equality
-          </code></pre>
-        </section>
-
-        <section>
-          <h3>Step 5: scope.render</h3>
-          <pre><code class="language-javascript">
-scope.render = function (data) {
-  // (1) update scales, axis
-  // (2) transition new data
-  var rect = svg.selectAll('rect').data(data);
-  rect.enter().append('rect').attr(/*...*/);
-  rect.transition().attr(/*...*/);
-  // (3) remove any data not needed
-  rect.exit().remove();
-}
-          </code></pre>
-        </section>
-
-        <section>
-          <h3>Step 6: watch for resize event</h3>
-          <pre><code class="language-javascript">
-// Browser onresize event
-window.onresize = function() {
-  scope.$apply(); // launch a digest cycle
-};
-
-// resize chart when the width changes
-scope.$watch(function () {
-  return el.clientWidth;
-}, function () {
-  scope.resize();
-});
-          </code></pre>
-        </section>
-
-        <section>
-          <h3>Step 7: scope.rezize</h3>
-          <pre><code class="language-javascript">
-scope.resize = function () {
-  // (1) update width
-  width = el.clientWidth - margin.right - margin.left;
-
-  // (2) update svg
-  var svg = d3.select(el).select('svg');
-  svg.attr('width', width + margin.right + margin.left);
-
-  // (3) update everything that is related to width
-}
-          </code></pre>
-        </section>
-
-        <section>
-          <h2><a href="http://victormejia.github.io/d3-angular-demos/#/bar" target="_blank">directive demo</a></h2>
-        </section>
-        <section>
-          <h3>Also check this awesome examples on directives</h3>
-          <p><a href="http://www.ng-newsletter.com/posts/directives.html">Building Custom Directives</a></p>
-          <p><a href="http://www.ng-newsletter.com/posts/d3-on-angular.html">D3 Angular Directive Intro</a></p>
-        </section>
-
         <section>
           <h1>Some extra <a href="https://gist.github.com/victormejia/c076c4d2519e5f58a319">Resources</a></h1>
         </section>
-
-        <section>
-          <h2>and check this playground out:</h2>
-          <a href="http://victormejia.github.io/d3-angular-demos">victormejia.github.io/d3-angular-demos</a>
-          <p>pull requests are welcome :)</p>
-        </section>
-
-
-        <section data-background="img/surprised.gif" data-state="new-section"></section>
 
         <section>
           <h3>the end :)</h1>
