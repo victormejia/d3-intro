@@ -81,6 +81,13 @@ svg {
   }
 }
 
+.new-section {
+  color: $lightblue;
+  .mediumblue {
+    color: #64BAFF;
+  }
+}
+
 // Theme template ------------------------------
 @import "theme";
 // ---------------------------------------------
