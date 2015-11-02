@@ -49,7 +49,7 @@
 
         <section>
           <h2>about me</h2>
-          <p>Freelance UI Engineer and Instructor</p>
+          <p>Senior UI Engineer @ Engrade (McGraw-Hill Education)</p>
           <p>I ♥ Coding and Teaching</p>
           <p>I ♥ JavaScript (Angular, Ionic, D3, Firebase)</p>
           <hr />
@@ -100,19 +100,31 @@
         </section>
 
         <section>
-          <h2>the plan</h2>
+          <h2>the plan (part 1)</h2>
           <ul>
             <li>svg intro</li>
             <li>selections</li>
             <li>scales</li>
             <li>axis</li>
             <li>transitions</li>
-            <li>basic tooltips</li>
+            <li>scatter plot</li>
+            <li>line chart</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>the plan (part 2)</h2>
+          <ul>
+            <li>interactivity</li>
+            <li>tooltips</li>
+            <li>bar chart</li>
+            <li>layouts (pie, force)</li>
+            <li>geomapping</li>
           </ul>
         </section>
 
         <!-- SVG Intro -->
-        <section data-background="#2d323d" data-state="new-section">
+        <section data-background="#2d323d" class="new-section">
           <h1>svg intro</h1>
         </section>
 
@@ -224,37 +236,7 @@
           <a href="https://docs.google.com/presentation/d/1CNQLbqC0krocy_fZrM5fZ-YmQ2JgEADRh3qR6RbOOGk/pub?start=true&loop=false&delayms=5000#slide=id.p">Leaving Pixels Behind</a>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
-          <h1>let's build a <span class="mediumblue">bar chart</span></h1>
-        </section>
-
-        <section>
-          <h4>Top GitHub Languages for 2014</h4>
-          <img src="img/google-big-query.png" alt="">
-        </section>
-
-        <section>
-          <pre><code class="language-javascript">var data =[{"lang":"JavaScript","value":"791535"}
-{"lang":"Java","value":"561366"}
-{"lang":"Ruby","value":"479525"}
-{"lang":"CSS","value":"354354"}
-{"lang":"PHP","value":"346761"}
-{"lang":"Python","value":"317085"}
-{"lang":"C","value":"289880"}
-{"lang":"C++","value":"164722"}
-{"lang":"C#","value":"123509"}
-{"lang":"Objective-C","value":"119345"}
-{"lang":"Shell","value":"99555"}
-{"lang":"Perl","value":"73431"}
-{"lang":"CoffeeScript","value":"43541"}
-{"lang":"R","value":"42070"}
-{"lang":"Go","value":"38130"}
-];
-          </code></pre>
-          <p>Data source: <a href="http://www.githubarchive.org/">GitHub Archive</a></p>
-        </section>
-
-        <section data-background="#2d323d" data-state="new-section"><h1>Setup</h1></section>
+        <section data-background="#2d323d" class="new-section"><h1>Setup</h1></section>
 
         <section>
           <h2>you only need d3.js</h2>
@@ -289,47 +271,169 @@ var svg = el.append("svg")
           <a href="http://bl.ocks.org/mbostock/3019563">http://bl.ocks.org/mbostock/3019563</a>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
+        <section data-background="#2d323d" class="new-section">
           <h1>Selections</h1>
         </section>
 
         <section>
           <h2>d3.<span class="mediumblue">select</span></h2>
-          <pre><code class="language-javascript">
-var el = d3.select('#chart');
-
-// append an svg element
-var svg = el.append('svg');
-
-// append returns a new selection
-svg.attr(...)
+          <pre><code class="language-javascript">d3.select("body").append("p").text("New paragraph!");
           </code></pre>
-          <p>One element selected, one appended</p>
+          <ul>
+            <li>D3 employs <em>chain syntax</em>, you can perform several actions on one line of code</li>
+            <li class="fragment">convention: put each method on its own line</li>
+          </ul>
+          <pre class="fragment"><code class="language-javascript">d3.select("body")
+  .append("p")
+  .text("New paragraph!");
+          </code></pre>
         </section>
 
         <section>
-          <h2>d3.<span class="mediumblue">selectAll</span></h2>
-          <pre><code class="language-javascript">
-// with many selected, can change all elements
-var rect = svg.selectAll('rect')
-                .attr(..);
-          </code></pre>
+          <pre><code class="language-javascript">d3.select("body")
+  .append("p")
+  .text("New paragraph!");</code></pre>
+          <ul>
+            <li>
+              <code>d3</code>: references the d3 object
+            </li>
+            <li class="fragment">
+              <code>.select('body')</code>: pass in CSS selector. Returns a reference to the first element in the DOM that matches
+            </li>
+            <li class="fragment">
+              <code>.append('p')</code>: appends element to a given selection, hands off reference to newly
+              created element
+            </li>
+          </ul>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
+        <section>
+          <pre><code class="language-javascript">d3.select("body")
+  .append("p")
+  .text("New paragraph!");</code></pre>
+          <ul>
+            <li>
+              <code>text()</code> takes a string and inserts it between the opening and closing tags of the
+              current selection
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Chainless</h2>
+          <pre><code class="language-javascript">
+            var body = d3.select("body");
+            var p = body.append("p");
+            p.text("New paragraph!");
+          </code></pre>
+          <p>but that looks ugly</p>
+        </section>
+
+        <section>
+          <p>look at /blocks/01-selections</p>
+        </section>
+
+        <section data-background="#2d323d" class="new-section">
           <h1>Let's talk about <span class="mediumblue">data</span></h1>
         </section>
 
         <section>
           <h3>Data are <span class="mediumblue">arrays</span></h3>
-          <pre><code class="language-javascript">
-var data = [1, 3, 5, 7, 9];
+          <pre><code class="language-javascript">var data = [1, 3, 5, 7, 9];
 
-var meetups = [
-  { name: 'AngularJSOC', members: 286 },
-  { name: 'OCMongoDB'  , members: 326 }
+var browserStats = [
+  { "browser":"Chrome", "value": "45" },
+  { "browser":"Safari", "value":"12" },
+  { "browser":"Firefox", "value":"18" },
+  { "browser":"IE", "value":"25" }
 ];
           </code></pre>
+        </section>
+
+        <section>
+          <h2>Data visualization is the process of <em>mapping</em> data to visuals.</h2>
+        </section>
+
+        <section>
+          <h2>Data Binding</h2>
+          <ul>
+            <li><em>attaching</em> data to DOM elements</li>
+            <li>D3 is very performant in mapping/attaching data, no need for redraws</li>
+        </section>
+
+        <section>
+          <h2>selection.<span class="mediumblue">data()</span></h2>
+          <pre><code class="language-javascript">var dataset = [ 5, 10, 15, 20, 25 ];
+d3.select('body').selectAll('p')
+  .data(dataset)
+  .enter()
+  .append('p')
+  .text('D3 is awesome!'');</code></pre>
+          <ul>
+            <li><code>d3.select('body')</code>:find DOM element and return reference</li>
+            <li class="fragment">
+              <code>.selectAll('p')</code>:select all p's in the DOM (empty selection)
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>selection.<span class="mediumblue">data()</span></h2>
+          <pre><code class="language-javascript">var dataset = [ 5, 10, 15, 20, 25 ];
+d3.select('body').selectAll('p')
+  .data(dataset)
+  .enter()
+  .append('p')
+  .text('D3 is awesome!'');</code></pre>
+          <ul>
+            <li><code>.data(dataset)</code>: counts and parses data values. Everything past this point will
+            be executed dataset.length amount of times.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Data Requests</h2>
+          <pre><code class="language-javascript">
+var data; // a global
+
+d3.json("path/to/file.json", function(error, json) {
+  if (error) return console.warn(error);
+  data = json;
+  visualizeit();
+});
+          </code></pre>
+          <p>more methods: <a href="https://github.com/mbostock/d3/wiki/Requests">https://github.com/mbostock/d3/wiki/Requests</a></p>
+        </section>
+
+        <section>
+          <h2>using your data</h2>
+          <pre><code class="language-javascript">
+  d3.json('/data/browser.json', function(err, data) {
+    d3.select('#data-binding')
+      .selectAll('p')
+      .data(data)
+      .enter()
+      .append('p')
+        .text(function(d) {
+          return d.browser + ' ' + d.value;
+        });
+  });
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>data binding</h2>
+          <p>&nbsp;</p>
+          <img src="/img/data-binding.png" alt="">
+        </section>
+
+        <section>
+          look at blocks/02-data-binding
+        </section>
+
+
+        <section data-background="#2d323d" class="new-section">
+          <h1>Drawing with<div class="mediumblue">data</div></h1>
         </section>
 
         <section>
@@ -353,13 +457,11 @@ var selection = svg.selectAll('rect')
   .data(data)
   .enter()
   .append('rect')
-    .attr({
-      x: function (d, i) { ... },
-      y: function (d, i) { ... },
-      height: function (d) { ... },
-      width: ...,
-      fill: ...
-    });
+    .attr('x', function(d,i) { ... })
+    .attr('y', function(d,i) { ... })
+    .attr('height', function(d,i) { ... })
+    .attr('width', function(d,i) { ... })
+    .attr('fill', ...)
           </code></pre>
         </section>
 
@@ -411,7 +513,7 @@ rect.exit().remove();
           <p>source: <a href="http://bost.ocks.org/mike/join/">Thining With Joins</a></p>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
+        <section data-background="#2d323d" class="new-section">
           <h1>Some useful <div class="mediumblue">D3</div> functions</h1>
         </section>
 
@@ -437,7 +539,7 @@ var max = d3.extent(values); // [1, 9]
           </code></pre>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
+        <section data-background="#2d323d" class="new-section">
           <h1 style="inline-block;" id="needsomescale">Scales</h1>
         </section>
 
@@ -483,7 +585,7 @@ selection
           <h2>Punchcard code along: <span class="mediumblue">scales</span></h2>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
+        <section data-background="#2d323d" class="new-section">
           <h1>Axis</h1>
         </section>
 
@@ -516,7 +618,7 @@ var xAxisGroup = svg.append("g")
           <h2>Punchcard code along: <span class="mediumblue">display data</span></h2>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
+        <section data-background="#2d323d" class="new-section">
           <h1>Transisitions</h1>
         </section>
 
@@ -548,7 +650,7 @@ r.transition()
           <h2>Punchcard code along: <span class="mediumblue">transitions</span></h2>
         </section>
 
-        <section data-background="#2d323d" data-state="new-section">
+        <section data-background="#2d323d" class="new-section">
           <h1>Custom Tooltips</h1>
         </section>
 
