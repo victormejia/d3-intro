@@ -41,7 +41,7 @@
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
         <section>
-          <h1>Intro to <span class="mediumblue">D3</span></h1>
+          <h2>Interactive Data Visualization With <span class="mediumblue">D3.js</span></h2>
           <p>
             Created by <a href="http://victormejia.github.io">Victor Mejia</a>
           </p>
@@ -81,7 +81,7 @@
         </section>
 
         <section>
-          <h2>let's focus on the word <a href="demos/mean">visualization</a></p>
+          <h2>let's focus on the word <span class="mediumblue">visualization</span></a></p>
         </section>
 
         <section>
@@ -107,19 +107,20 @@
             <li>scales</li>
             <li>axis</li>
             <li>transitions</li>
-            <li>scatter plot</li>
+            <li>interactivity</li>
             <li>line chart</li>
+            <li>bar chart</li>
           </ul>
         </section>
 
         <section>
           <h2>the plan (part 2)</h2>
           <ul>
-            <li>interactivity</li>
-            <li>tooltips</li>
-            <li>bar chart</li>
-            <li>layouts (pie, force)</li>
+            <li>scatter plot</li>
+            <li>layouts (pie)</li>
             <li>geomapping</li>
+            <li>reusable charts</li>
+            <li>mobile-friendly</li>
           </ul>
         </section>
 
@@ -242,8 +243,7 @@
 
         <section>
           <h2>d3.<span class="mediumblue">select</span></h2>
-          <pre><code class="language-javascript">d3.select("body").append("p").text("New paragraph!");
-          </code></pre>
+          <pre><code class="language-javascript">d3.select("body").append("p").text("New paragraph!");</code></pre>
           <ul>
             <li>D3 employs <em>chain syntax</em>, you can perform several actions on one line of code</li>
             <li class="fragment">convention: put each method on its own line</li>
@@ -291,11 +291,11 @@
             var p = body.append("p");
             p.text("New paragraph!");
           </code></pre>
-          <p>but that looks ugly</p>
+          <p>but....just chain 😀</p>
         </section>
 
         <section>
-          <p>look at /blocks/01-selections</p>
+          <h2>demo: selections</h2>
         </section>
 
         <section data-background="#2d323d" class="new-section">
@@ -316,7 +316,7 @@ var browserStats = [
         </section>
 
         <section>
-          <h2>Data visualization is the process of <em>mapping</em> data to visuals.</h2>
+          <h2>Data <span class="mediumblue">visualization</span> is the process of <span class="mediumblue"><em>mapping</em></span> data to visuals.</h2>
         </section>
 
         <section>
@@ -335,7 +335,7 @@ d3.select('body').selectAll('p')
   .append('p')
   .text('D3 is awesome!'');</code></pre>
           <ul>
-            <li><code>d3.select('body')</code>:find DOM element and return reference</li>
+            <li><code>d3.select('body')</code>: find DOM element and return reference</li>
             <li class="fragment">
               <code>.selectAll('p')</code>:select all p's in the DOM (empty selection)
             </li>
@@ -379,12 +379,9 @@ d3.select('body').selectAll('p')
         <section>
           <h2>Data Requests</h2>
           <pre><code class="language-javascript">
-var data; // a global
-
-d3.json("path/to/file.json", function(error, json) {
+d3.json("path/to/file.json", function(error, data) {
   if (error) return console.warn(error);
-  data = json;
-  visualizeit();
+  visualize(data);
 });
           </code></pre>
           <p>more methods: <a href="https://github.com/mbostock/d3/wiki/Requests">https://github.com/mbostock/d3/wiki/Requests</a></p>
@@ -407,7 +404,7 @@ d3.json("path/to/file.json", function(error, json) {
         </section>
 
         <section>
-          look at blocks/02-data-binding
+          <h2>demo: data binding</h2>
         </section>
 
         <section data-background="#2d323d" class="new-section">
@@ -417,7 +414,7 @@ d3.json("path/to/file.json", function(error, json) {
         <section><h1>Setup</h1></section>
 
         <section>
-          <h4>Margin Convention</h4>
+          <h4>Boilerplate and Margin Convention</h4>
           <pre><code class="language-javascript">// (1) Select element
 var el = d3.select('.timeseries'),
     elWidth = parseInt(el.style('width'), 10),
@@ -491,17 +488,17 @@ rect.exit().remove();
 
         <section>
           <h3>Enter</h3>
-          <img src="img/enter.jpg">
+          <img src="img/enter.jpg" height="500">
         </section>
 
         <section>
           <h3>Update</h3>
-          <img src="img/update.jpg">
+          <img src="img/update.jpg" height="500">
         </section>
 
         <section>
           <h3>Exit</h3>
-          <img src="img/exit.jpg">
+          <img src="img/exit.jpg" height="500">
         </section>
 
         <section>
@@ -514,8 +511,71 @@ rect.exit().remove();
           <p>source: <a href="http://bost.ocks.org/mike/join/">Thining With Joins</a></p>
         </section>
 
+        <section>
+          <h2>demo: drawing svg and updates</h2>
+        </section>
+
         <section data-background="#2d323d" class="new-section">
-          <h1>Some useful <div class="mediumblue">D3</div> functions</h1>
+          <h1>Transitions</h1>
+        </section>
+
+        <section>
+          <h2>General Pattern</h2>
+          <pre><code class="language-javascript">// (1) initial attributes
+var r = svg.selectAll('rect')
+  .data(data)
+  .enter()
+  .append('rect')
+    .attr(initialAttrs);
+
+// (2) transition to final state
+r.transition()
+  .delay(function (d, i){
+    return d * 25; // delay each element
+  })
+  .ease("linear") // also "elastic", "bounce", etc.
+  .duration(700) // entire transition
+  .attr(finalAttrs);
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>demo: transitions</h2>
+        </section>
+
+        <section><h2><a href="demos/03-barchart-animated" target="_blank">transition demo</a></h2></section>
+
+        <section><h2><a href="demos/04-scatterplot-animated" target="_blank">transition demo 2</a></h2></section>
+
+        <section data-background="#2d323d" class="new-section">
+          <h1>Scales</h1>
+        </section>
+
+        <section>
+          <h1>d3.<span class="span mediumblue">scale</span></h1>
+        </section>
+
+        <section>
+          <blockquote>Scales are functions that map from an input domain to an output range</blockquote>
+          <p>- <a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales">Mike Bostock's definition</a></p>
+          <ul>
+            <li class="fragment">The values in any dataset are unlikely to correspond exactly to pixel measurements for use in your visualization.</li>
+            <li class="fragment">Scales provide a convenient way to map those data values to new values useful for visualization purposes.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Domains and Ranges</h2>
+          <ul>
+            <li>input domain: range of possible input values (usually min and max values of dataset)</li>
+            <li>output range: range of possible output values (pixel units)</li>
+            <li>input --> domain</li>
+            <li>output --> range</li>
+          </ul>
+        </section>
+
+        <section data-background="#2d323d" class="new-section">
+          <h2>Some useful <div class="mediumblue">D3</div> functions</h2>
         </section>
 
         <section>
@@ -540,12 +600,27 @@ var max = d3.extent(values); // [1, 9]
           </code></pre>
         </section>
 
-        <section data-background="#2d323d" class="new-section">
-          <h1 style="inline-block;" id="needsomescale">Scales</h1>
+        <section>
+          <h2>Domains and Ranges</h2>
+          <img src="/img/scales.png" alt="">
         </section>
 
         <section>
-          <h2>d3.<span class="mediumblue">scale</span></h2>
+          <h2>d3.<span class="mediumblue">scale</span> (linear, time)</h2>
+          <pre><code class="language-javascript">
+var y = d3.scale.linear()
+  .range([height, 0])
+  .domain(d3.extent(data, function(d) { return d.value; }));
+
+// A scale method for date and time values, with special handling of ticks for dates.
+var x = d3.time.scale()
+        .range([0, width])
+        .domain(d3.extent(data, function(d) { return d.date; }));
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>d3.<span class="mediumblue">scale</span> (ordinal)</h2>
           <pre><code class="language-javascript">
 var heightScale = d3.scale.linear()
   .domain([0, d3.max(data, function (d) { return d.value})])
@@ -559,31 +634,25 @@ var xScale = d3.scale.ordinal()
         </section>
 
         <section>
-             <h3>Use scales for rect's attr</h3>
-             <pre>
-               <code class="language-javascript">
-selection
-  .attr({
-    x: function (d, i) {
-      return xScale(d.lang)
-    },
-    y: function (d, i) {
-      return yScale(d.value);
-    },
-    height: function (d) {
-      return height - yScale(d.value);
-    },
-    width: xScale.rangeBand(),
-    fill: fillColor
-  })
-                </code>
-             </pre>
+          <h2>Docs</h2>
+          <ul>
+            <li><a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales#linear">Linear Scales</a></li>
+            <li><a href="https://github.com/mbostock/d3/wiki/Ordinal-Scales">Ordinal Scales</a></li>
         </section>
 
-        <section><h2><a href="demos/01-barchart-scaled/" target="_blank">demo</a></h2></section>
-
         <section>
-          <h2>Punchcard code along: <span class="mediumblue">scales</span></h2>
+             <h3>Example: Use scales for rect's attr</h3>
+             <pre><code class="language-javascript">selection
+  .attr('x', function (d, i) {
+    return xScale(d.lang)
+  }),
+  .attr('y', function (d, i) {
+    return yScale(d.value);
+  }),
+  .attr('height', function (d) {
+    return height - yScale(d.value);
+  }),
+  .attr('width', xScale.rangeBand());</code></pre>
         </section>
 
         <section data-background="#2d323d" class="new-section">
@@ -595,64 +664,36 @@ selection
           <pre><code class="language-javascript">
 // create axis
 var xAxis = d3.svg.axis()
-  .scale(xScale)
-  .orient("bottom") // place label below tick
-  .tickPadding(10); // padding b/n tick and label
+    .scale(x)
+    .tickFormat(d3.time.format('%m/%d')) // formatting for ticks
+    .ticks(d3.time.day, 3) // manually specify ticks
+    .orient("bottom"); // place label below tick
 
-var xAxisGroup = svg.append("g")
-  .attr({
-    class : 'axis',
-    transform: 'translate(' + [0, height] + ')'
-  }).call(xAxis);
-
-          </code></pre>
-        </section>
-        </section>
-
-        <section><h2><a href="demos/02-barchart-axis" target="_blank">axis demo</a></section></h2>
-
-        <section>
-          <h2>Punchcard code along: <span class="mediumblue">axis</span></h2>
-        </section>
-
-        <section>
-          <h2>Punchcard code along: <span class="mediumblue">display data</span></h2>
-        </section>
-
-        <section data-background="#2d323d" class="new-section">
-          <h1>Transisitions</h1>
-        </section>
-
-        <section>
-          <h2>General Pattern</h2>
-          <pre><code class="language-javascript">// (1) initial attributes
-var r = svg.selectAll('rect')
-  .data(data)
-  .enter()
-  .append('rect')
-    .attr(initialAttrs);
-
-// (2) transition to final state
-r.transition()
-  .delay(function (d, i){
-    return d * 25; // delay each element
-  })
-  .ease("linear") // also "elastic", "bounce", etc.
-  .duration(700) // entire transition
-  .attr(finalAttrs);
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis);
           </code></pre>
         </section>
 
-        <section><h2><a href="demos/03-barchart-animated" target="_blank">transition demo</a></h2></section>
-
-        <section><h2><a href="demos/04-scatterplot-animated" target="_blank">transition demo 2</a></h2></section>
-
         <section>
-          <h2>Punchcard code along: <span class="mediumblue">transitions</span></h2>
+          <h2>useful styling for axis</h2>
+          <pre><code class="language-css">.axis path,
+.axis line {
+  fill: none;
+  stroke: #282F35;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.axis .tick {
+  fill: #DAE0E4;
+  font-size: 12px;
+}</code></pre>
         </section>
 
         <section data-background="#2d323d" class="new-section">
-          <h1>Custom Tooltips</h1>
+          <h1>Tooltips</h1>
         </section>
 
         <section>
@@ -692,11 +733,11 @@ function handleMouseover(d, i) {
         <section>
           <h3>add tooltip to svg</h3>
           <pre><code class="language-javascript">
-var tooltip = svg.append('g').attr({class: 'tooltip'});
+var tooltip = svg.append('g').attr('class', 'tooltip');
 
-tooltip.append('rect').attr({ height: '30', width: '100' });
+tooltip.append('rect').attr('height', '30').attr('width', '100');
 
-tooltip.append('text').attr({ x: 10, y: 20 }); // relative to group element
+tooltip.append('text').attr('x', 10).attr('y', 20); // relative to group element
           </code></pre>
         </section>
 
@@ -709,7 +750,7 @@ function handleMouseover(d, i) {
   var pos = { x: xScale(d.lang), y: yScale(d.value) - 35};
 
   var tooltip = svg.select('.tooltip')
-    .attr('transform': 'translate(' + [pos.x, pos.y + ')');
+    .attr('transform': 'translate(' + [pos.x, pos.y] + ')');
 
   tooltip.select('text').text('Repos: ' + d.value);
 
@@ -720,6 +761,15 @@ function handleMouseout(d, i) {
   svg.select('.tooltip').style('visibility', 'hidden')
 }
           </code></pre>
+        </section>
+
+        <section>
+          <h2>d3.tip.js</h2>
+          <p style="text-align:left;">Awesome tooltip lib: <a href="https://github.com/Caged/d3-tip">https://github.com/Caged/d3-tip</a></p>
+        </section>
+
+        <section>
+          <h2>demo: Interactivity</h2>
         </section>
 
         <section><h2><a href="demos/05-barchart-tooltips" target="_blank">tooltip demo </a></h2></section>
@@ -735,16 +785,54 @@ function handleMouseout(d, i) {
           <ul>
             <li>Layouts don't <em>layout </em> anything for you</li>
             <li>take data that you provide and remap or otherwise transform it</li>
-            <li>Layouts: Bundle, Chord, Histogram, <strong>Force</strong>, <strong>Pie</strong>, <strong>Stack</strong></li>
+            <li>Layouts: Bundle, Chord, Histogram, Force, Stack, <strong>Pie</strong></li>
           </ul>
         </section>
 
         <section>
-          <h2>d3.layout.pie()</h2>
+          <h2>d3.<span class="mediumblue">layout.pie()</span></h2>
           <p>take your data and calculate all those messy angles for you (in radians)</p>
           <ul>
             <li>Circle = 360 degrees = 2</li>
           </ul>
+        </section>
+
+        <section>
+          <img src="/img/piefunc.png" alt="">
+        </section>
+
+        <section>
+          <h2>d3.<span class="mediumblue">svg.arc()</span></h2>
+          <p>function for drawing arcs as SVG path elements</p>
+          <pre><code class="language-javascript">// pie!
+var pie = d3.layout.pie()
+  .value(function(d) {
+    return d.value;
+  });
+
+var radius = Math.min(width, height) / 2;
+
+var arc = d3.svg.arc()
+  .innerRadius(radius)
+  .outerRadius(radius * 0.6);
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code class="language-javascript">
+// set up the arcs
+var arcs = svg.selectAll(".arc")
+  .data(pie(data))
+  .enter().append("g")
+  .attr("class", "arc");
+
+// within each new g, we append a path
+arcs.append("path")
+  .attr("fill", function(d, i) {
+    return color(i);
+  })
+  .attr("d", arc);
+          </code></pre>
         </section>
 
         <section data-background="#2d323d" class="new-section">
@@ -762,7 +850,7 @@ function handleMouseout(d, i) {
 
         <section>
           <h2>GeoJSON</h2>
-          <img src="/img/geojson.png" alt="">
+          <img src="/img/geojson.png" height="500" alt="">
         </section>
 
         <section>
@@ -838,8 +926,7 @@ var path = d3.geo.path()
   .data(data.features).enter().append("path")
   .attr("d", path)
   .style("fill", "#6c798c")
-  .style('stroke', '#8893A4')
-          </code></pre>
+  .style('stroke', '#8893A4')</code></pre>
         </section>
 
         <section>
@@ -890,14 +977,62 @@ svg.selectAll("circle")
           <img src="/img/geomap-points.png" alt="">
         </section>
 
+        <section data-background="#2d323d" class="new-section">
+          <h2>Responsive Charts</h2>
+        </section>
+
+        <section>
+          <h3>quick way (works for the most part, "zooming in and out")</h3>
+          <pre><code class="language-javascript">
+var svg = el.append("svg")
+  .attr("width", "100%")
+  .attr("height", "100%")
+  .attr("viewBox", "0 0 " + elWidth + " " + elHeight )
+  .attr("preserveAspectRatio", "xMidYMid meet")
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>window.onresize</h3>
+          <ul>
+            <li>add listener, then update all items related to width</li>
+            <li>update svg width</li>
+            <li>scale, axis</li>
+            <li>redraw vis</li>
+          </ul>
+          <a href="https://github.com/victormejia/d3-angular-demos/blob/master/app%2Fscripts%2Fdirectives%2Fbarchart.directive.js#L104">Example (Angular)</a>
+        </section>
+
+        <section data-background="#2d323d" class="new-section">
+          <h2>Reusable Charts</h2>
+        </section>
+
+        <section>
+          <h2>we can use prototypes</h2>
+          <pre><code class="language-javascript">
+var PieChart = (function () {
+    function PieChart(el, data) {
+        this.el = el;
+        this.data = data;
+        this.render();
+    }
+    PieChart.prototype.render = function () {
+        ...
+    };
+    return PieChart;
+})();
+
+// usage
+var vis = new PieChart('.browser-breakdown', data);
+          </code></pre>
+        </section>
+
         <section>
           <h1>Some extra <a href="https://gist.github.com/victormejia/c076c4d2519e5f58a319">Resources</a></h1>
         </section>
 
         <section>
-          <h3>the end :)</h1>
-          <p><img src="img/snoopy.png" alt=""></p>
-          <p>© 2014 PEANUTS Worldwide LLC</p>
+          <h2>Thanks!</h2> 👊
         </section>
 
       </div>
