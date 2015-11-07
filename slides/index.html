@@ -236,41 +236,6 @@
           <a href="https://docs.google.com/presentation/d/1CNQLbqC0krocy_fZrM5fZ-YmQ2JgEADRh3qR6RbOOGk/pub?start=true&loop=false&delayms=5000#slide=id.p">Leaving Pixels Behind</a>
         </section>
 
-        <section data-background="#2d323d" class="new-section"><h1>Setup</h1></section>
-
-        <section>
-          <h2>you only need d3.js</h2>
-          <p>+</p>
-          <h2>some styling</h2>
-        </section>
-        <section>
-          <h4>Margin Convention</h4>
-          <pre><code class="language-javascript">// (1) Select element
-var el = d3.select('#chart'),
-
-// (2) Grab element's dimensions
-elWidth = parseInt(el.style('width'), 10),
-elHeight = parseInt(el.style('height'), 10),
-
-// (3) Declare margins for axis
-margin = {top: 20, right: 10, bottom: 80, left: 40},
-
-// (4) calculate width and height used for scaling
-width = elWidth - margin.right - margin.left,
-height = elHeight - margin.top - margin.bottom;
-
-// (5) append svg element with added margins and group element inside
-var svg = el.append("svg")
-  .attr("width", elWidth)
-  .attr("height", elHeight)
-.append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
-// now in our code we can just reference width and height
-          </code></pre>
-          <a href="http://bl.ocks.org/mbostock/3019563">http://bl.ocks.org/mbostock/3019563</a>
-        </section>
-
         <section data-background="#2d323d" class="new-section">
           <h1>Selections</h1>
         </section>
@@ -358,7 +323,7 @@ var browserStats = [
           <h2>Data Binding</h2>
           <ul>
             <li><em>attaching</em> data to DOM elements</li>
-            <li>D3 is very performant in mapping/attaching data, no need for redraws</li>
+            <li>D3 is very performant in mapping/attaching data, redraws only when needed.</li>
         </section>
 
         <section>
@@ -392,6 +357,26 @@ d3.select('body').selectAll('p')
         </section>
 
         <section>
+          <h2>selection.<span class="mediumblue">data()</span></h2>
+          <pre><code class="language-javascript">var dataset = [ 5, 10, 15, 20, 25 ];
+d3.select('body').selectAll('p')
+  .data(dataset)
+  .enter()
+  .append('p')
+  .text('D3 is awesome!'');</code></pre>
+          <ul>
+            <li><code>.enter()</code>: creates new, data-bound elements and looks at current DOM selection.</li>
+            <li>if more data values than DOM elements, enter() creates a new placeholder element</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>data binding</h2>
+          <p>&nbsp;</p>
+          <img src="/img/data-binding.png" alt="">
+        </section>
+
+        <section>
           <h2>Data Requests</h2>
           <pre><code class="language-javascript">
 var data; // a global
@@ -422,18 +407,34 @@ d3.json("path/to/file.json", function(error, json) {
         </section>
 
         <section>
-          <h2>data binding</h2>
-          <p>&nbsp;</p>
-          <img src="/img/data-binding.png" alt="">
-        </section>
-
-        <section>
           look at blocks/02-data-binding
         </section>
 
-
         <section data-background="#2d323d" class="new-section">
-          <h1>Drawing with<div class="mediumblue">data</div></h1>
+          <h1>Drawing <span class="mediumblue">SVG</span>s</h1>
+        </section>
+
+        <section><h1>Setup</h1></section>
+
+        <section>
+          <h4>Margin Convention</h4>
+          <pre><code class="language-javascript">// (1) Select element
+var el = d3.select('.timeseries'),
+    elWidth = parseInt(el.style('width'), 10),
+    elHeight = parseInt(el.style('height'), 10),
+    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = elWidth - margin.left - margin.right,
+    height = elHeight - margin.top - margin.bottom;
+
+var svg = el.append("svg")
+    .attr("width", elWidth)
+    .attr("height", elHeight)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// now in our code we can just reference width and height
+          </code></pre>
+          <a href="http://bl.ocks.org/mbostock/3019563">http://bl.ocks.org/mbostock/3019563</a>
         </section>
 
         <section>
@@ -744,6 +745,149 @@ function handleMouseout(d, i) {
           <ul>
             <li>Circle = 360 degrees = 2</li>
           </ul>
+        </section>
+
+        <section data-background="#2d323d" class="new-section">
+          <h1>Geomapping</h1>
+        </section>
+
+        <section>
+          <h2>GeoJSON</h2>
+          <ul>
+            <li>a very specific use of JSON</li>
+            <li>to generate a geographic map, need path data</li>
+            <li><a href="https://raw.githubusercontent.com/alignedleft/d3-book/master/chapter_12/us-states.json">us-states.json</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>GeoJSON</h2>
+          <img src="/img/geojson.png" alt="">
+        </section>
+
+        <section>
+          <h2>GeoJSON</h2>
+          <ul>
+            <li>under "geometry" field, has coordinates that make up the boundaries</li>
+            <li>GeoJSON is lon/lat vs. lat/lon</li>
+            <li>lon/lat can easily be converted to x/y values for display</li>
+            <li>Double-check coordinate values: <a href="http://teczno.com/squares">Get Lat+Lon</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Paths</h1>
+        </section>
+
+        <section>
+          <h2>Paths</h2>
+          <pre><code class="language-javascript">
+var path = d3.geo.path();
+          </code></pre>
+          <ul>
+            <li>does the dirty work of translating GeoJSON coordinates into SVG path values.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>generate path</h2>
+          <pre><code class="language-javascript">
+var path = d3.geo.path();
+
+svg.selectAll("path")
+  .data(data.features)
+  .enter()
+  .append("path")
+  .attr("d", path);
+          </code></pre>
+        </section>
+
+        <section>
+          <h4>not quite there...</h4>
+          <img src="/img/initialmap.png" alt="">
+        </section>
+
+        <section>
+          <h1>Projections</h1>
+        </section>
+
+        <section>
+          <h3>Projections</h3>
+          <pre><code class="language-javascript">var projection = d3.geo.albersUsa()
+                    .translate([width/2, height/2])
+                    .scale([1200]); // default is 1000</code></pre>
+          <ul>
+            <li>translate that which is in 3D space to 2D space</li>
+            <li>d3 has several built-in projections</li>
+            <li>Albers USA nicely tucks Alaska and Hawaii beneath the Southwest</li>
+            <li>albersUsa is default, but good to specify to customize</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Projections</h3>
+          <pre><code class="language-javascript">var projection = d3.geo.albersUsa()
+                    .translate([width/2, height/2])
+                    .scale([1200]); // default is 1000
+
+var path = d3.geo.path()
+    .projection(projection);</code></pre>
+          </code></pre>
+          <p>then add the path</p>
+          <pre><code class="language-javascript">svg.selectAll("path")
+  .data(data.features).enter().append("path")
+  .attr("d", path)
+  .style("fill", "#6c798c")
+  .style('stroke', '#8893A4')
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Nice looking map :)</h3>
+          <img src="/img/geomap.png" alt="">
+        </section>
+
+        <section>
+          <h1>Adding Points</h1>
+        </section>
+
+        <section>
+          <h2>View Data</h2>
+          <p>you can use <a href="http://www.teczno.com/squares/">http://www.teczno.com/squares/</a> to geocode</p>
+          <pre><code>
+            rank,place,views,lat,lon
+            1,NewYork,81751,40.71455,-74.007124
+            2,LosAngeles,37926,34.05349,-118.245323
+            3,Chicago,2695,45.37399,-92.888759
+            4,Houston,20994,41.337462,-75.733627
+            5,Philadelphia,15260,37.15477,-94.486114
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Use projection</h2>
+          <pre><code class="language-javascript">
+svg.selectAll("circle")
+  .data(data)
+  .enter()
+  .append("circle")
+  .style("fill", "#59A2F0")
+  .attr("cx", function(d) {
+    return projection([d.lon, d.lat])[0];
+  })
+  .attr("cy", function(d) {
+    return projection([d.lon, d.lat])[1];
+  })
+  .attr("r", function(d) {
+    return Math.sqrt(parseInt(d.views) * 0.008);
+  })
+  .style("opacity", 0.75);
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Points and d3.tip.js</h3>
+          <img src="/img/geomap-points.png" alt="">
         </section>
 
         <section>
